@@ -36,7 +36,15 @@
 			}
 		}
 
-		init();
+
+		//When the window loads run the init scene which will trigger rendering once models load
+		window.onload = function(){
+
+			init();
+
+		}
+
+		
 
 		function init() {
 
@@ -63,10 +71,6 @@
 					metaStand.position.set(0,-1800,0);
 					scene.add( metaStand );
 
-					//hide the loading text
-					var loadingText = document.getElementById('loader');
-					loadingText.style.display = "none";
-
 					//Start animating once the model loads
 					animate();
 
@@ -75,8 +79,6 @@
 				},    
 				// called when download progresses
 				function ( xhr ) {
-					var loadingText = document.getElementById('loader');
-					loadingText.innerText = Math.round(xhr.loaded / xhr.total * 100) + '% loaded';
 					console.log( (Math.round(xhr.loaded / xhr.total * 100)) + '% loaded' );
 				},
 
