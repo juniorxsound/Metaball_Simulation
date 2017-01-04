@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Metaball simulation</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+		  color: #000000;
+		  font-family: Monospace;
+		  font-size: 13px;
+		  text-align: center;
+
+		  background-color: #ffffff;
+		  margin: 0px;
+		  overflow: hidden;
+		}
+
+		#container{
+			display: none;
+		}
+		#loader{
+			position: absolute;
+			left: 50%; top: 50%;
+			font-size: 30px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="loader"></div>
+
+	<div id="container"></div>
+
+	<script src="js/three.min.js"></script>
+
+	<script src="js/controls/OrbitControls.js"></script>
+
+	<script src="js/MarchingCubes.js"></script>
+
+	<script src="js/Detector.js"></script>
+	<script src="js/libs/stats.min.js"></script>
+	<script src="js/libs/dat.gui.min.js"></script>
+
+
+	<script src="js/app.js"></script>
+
+</body>
+</html>
