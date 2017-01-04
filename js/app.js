@@ -78,8 +78,8 @@
 					container.style.display = "block";
 				},    
 				// called when download progresses
-				function ( xhr ) {
-					console.log( (Math.round(xhr.loaded / xhr.total * 100)) + '% loaded' );
+				function ( loaded, total ) {
+					console.log( (Math.round(loaded / total * 100)) + '% loaded' );
 				},
 
 				//  called when download errors
