@@ -9,20 +9,22 @@
 
 		var light, pointLight, ambientLight;
 
-		var meta, resolution, numBlobs;
+		var meta, metaMat, resolution, numBlobs;
 
-		var metaStand;
+		var metaStand, standMat;
 
 		var time = 0;
 		var clock = new THREE.Clock();
 
 		var metaController = {
-
+			
+			//Metaball simulation
 			speed: 1.0,
 			numBlobs: 10,
 			resolution: 50,
 			isolation: 80,
 
+			//Camera control
 			cameraRotate: function(){
 				if(controls.autoRotate){
 					controls.autoRotate = false;
@@ -33,7 +35,16 @@
 
 			cameraReset: function(){
 				camera.position.set( 0, 0, 5000 );
-			}
+			},
+
+			//Metaball material
+			metaColor: "#000000",
+			metaSpec: "#888888",
+			metaShine: 250,
+
+			standColor: "#000000",
+			standSpec: "#FFD700",
+			standShine: 250
 		}
 
 
@@ -64,8 +75,8 @@
 				'assets/models/meta_stand_geo.json',
 				//Load the model
 				function ( geometry, materials ) {
-					var material = new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0xFFD700, shininess: 250 } )
-					var object = new THREE.Mesh( geometry, material );
+					standMat = new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0xFFD700, shininess: 250 } )
+					var object = new THREE.Mesh( geometry, standMat );
 					metaStand = object;
 					metaStand.scale.set(400,400,400);
 					metaStand.position.set(0,-1800,0);
@@ -100,7 +111,8 @@
 			resolution = 28;
 			numBlobs = 10;
 
-			meta = new THREE.MarchingCubes( 50, new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x888888, shininess: 250 } ), true, true );
+			metaMat =  new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x888888, shininess: 250 } );
+			meta = new THREE.MarchingCubes( 50, metaMat, true, true );
 			meta.position.set( 0, 700, 0 );
 			meta.scale.set( 700, 700, 700 );
 
@@ -192,8 +204,7 @@
 
 			controls.update( delta );
 
-			// marching cubes
-
+			// Metaball simulation GUI
 			if ( metaController.resolution !== resolution ) {
 
 				resolution = metaController.resolution;
@@ -205,6 +216,22 @@
 
 				meta.isolation = metaController.isolation;
 
+			}
+
+			//Metaball Material GUI
+			metaMat.color = new THREE.Color(metaController.metaColor);
+			metaMat.specular = new THREE.Color(metaController.metaSpec);
+
+			if(metaMat.shininess !== metaController.metaShine){
+				metaMat.shininess = metaController.metaShine;
+			}
+
+			//Stand material GUI
+			standMat.color = new THREE.Color(metaController.standColor);
+			standMat.specular = new THREE.Color(metaController.standSpec);
+
+			if(standMat.shininess !== metaController.standShine){
+				standMat.shininess = metaController.standShine;
 			}
 
 			updateCubes( meta, time, metaController.numBlobs );
@@ -226,4 +253,14 @@
 			h.add(metaController, "numBlobs", 0, 20);
 			h.add(metaController, "resolution", 50, 100);
 			h.add(metaController, "isolation", 50, 450);
+
+			var h = gui.addFolder("Meta Material");
+			h.addColor(metaController, "metaColor");
+			h.addColor(metaController, "metaSpec");
+			h.add(metaController, "metaShine", 0, 250);
+
+			var h = gui.addFolder("Stand Material");
+			h.addColor(metaController, "standColor");
+			h.addColor(metaController, "standSpec");
+			h.add(metaController, "standShine", 0, 250);
 		}
